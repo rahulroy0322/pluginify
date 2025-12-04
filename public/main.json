@@ -1,0 +1,8 @@
+{
+  "name": "My App",
+  "short-name": "my-app",
+  "slug": "com.myapp.test",
+  "files": [
+    "main.js"
+  ]
+}

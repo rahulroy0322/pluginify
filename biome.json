@@ -11,7 +11,11 @@
       "!dist/**/*",
       "src/**/*",
       "biome.json",
-      "package.json"
+      "package.json",
+      "vite.config.ts",
+      "public/**/*",
+      "!public/sw.js",
+      "!src/components/ui/*"
     ]
   },
   "formatter": {
@@ -46,7 +50,7 @@
               "warn"
             ]
           },
-          "level": "error"
+          "level": "off"
         },
         "noConstEnum": "error",
         "noDoubleEquals": "error",
@@ -100,6 +104,11 @@
       "expand": "always",
       "indentStyle": "space",
       "trailingCommas": "none"
+    }
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
     }
   },
   "assist": {
