@@ -1,0 +1,43 @@
+{
+  "name": "pluginify",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "A plugin system in react",
+  "homepage": "https://github.com/rahulroy0322/pluginify#readme",
+  "scripts": {
+    "build": "tsc -b && vite build",
+    "check": "biome check",
+    "check:fix": "biome check --fix",
+    "dev": "vite",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.3.8",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "typescript": "~5.9.3",
+    "vite": "^7.2.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rahulroy0322/pluginify.git"
+  },
+  "keywords": [
+    "plugin",
+    "react",
+    "react plugin",
+    "dynamic app"
+  ],
+  "author": "Rahul Roy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rahulroy0322/pluginify/issues"
+  }
+}
