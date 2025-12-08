@@ -19,35 +19,46 @@ sw.addEventListener('activate', (event) => {
   event.waitUntil(sw.clients.claim())
 })
 
-sw.addEventListener('fetch', (event) => {
+sw.addEventListener('fetch', async (event) => {
   const url = event.request.url
 
   if (url.endsWith('/main.json')) {
     event.respondWith(cacheFirst(event.request))
   }
+
+  // if (url.includes('http://localhost:5173/my-app/test/main.js')) {
+  //   return event.respondWith(await fetch('http://localhost:5173/test.txt'))
+  // }
+
+  // const cache = await caches.open(CACHE_NAME)
+
+  // const cached = await cache.match(url)
+  // if (cached) {
+  //   return event.respondWith(cached)
+  // }
 })
 
-const getUrl = ({ slug, file }: { slug: string; file: string }): string => {
-  if (!slug) {
-    return file
-  }
+// const getUrl = ({ slug, file }: { slug: string; file: string }): string => {
+//   if (!slug) {
+//     return file
+//   }
 
-  return slug + '/' + file
-}
+//   return slug + '/' + file
+// }
 
 const cacheFirst = async (request: Request) => {
   const cache = await caches.open(CACHE_NAME)
 
-  const cached = await cache.match(request)
-  if (cached) {
-    return cached // ✅ Serve from cache instantly
-  }
+  // const cached = await cache.match(request)
+  // if (cached) {
+  //   return cached // ✅ Serve from cache instantly
+  // }
 
   const res = await fetch(request)
 
   cache.put(request, res.clone())
 
-  const { files, slug } = (await res.clone().json()) as {
+  const { files } = (await res.clone().json()) as {
     slug: string
 
     files: string[]
@@ -58,16 +69,17 @@ const cacheFirst = async (request: Request) => {
       const url = new URL(file, request.url)
 
       const req = new Request(
-        new URL(
-          getUrl({
-            slug,
-            file,
-          }),
-          request.url
-        )
+        // new URL(
+        //   getUrl({
+        //     slug,
+        //     file,
+        //   }),
+        //   request.url
+        // )
+        url
       )
 
-      const res = await fetch(url)
+      const res = await fetch(req)
 
       cache.put(req, res.clone())
     })

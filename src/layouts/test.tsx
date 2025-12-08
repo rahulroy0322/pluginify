@@ -373,8 +373,11 @@
 //         const h = React.createElement
 //         const Icons = { Moon, Sun, Box, Activity, Bell, Info }
 //         // Pass the React object itself so plugins can use { useState, useEffect } = React
-//         const factory = new Function('React', 'h', 'Icons', 'api', mainJsCode)
-//         const cleanupFn = factory(React, h, Icons, api)
+//         const factory = new
+//         Function('React', 'h', 'Icons',
+//              'api', mainJsCode)
+//         const cleanupFn = factory(React,
+//             h, Icons, api)
 
 //         if (typeof cleanupFn === 'function') {
 //           activeCleanupFunctions.current[id] = cleanupFn

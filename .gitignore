@@ -138,3 +138,5 @@ bin
 
 # extra files
 pnpm-workspace.yaml
+sw.js
+!src/lib

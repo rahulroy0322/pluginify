@@ -13,8 +13,7 @@
       "biome.json",
       "package.json",
       "vite.config.ts",
-      "public/**/*",
-      "!public/sw.js",
+      "public/**/*.{ts,tsx}",
       "!src/components/ui/*"
     ]
   },
@@ -111,6 +110,16 @@
       "tailwindDirectives": true
     }
   },
+  "overrides": [
+    {
+      "includes": [
+        "public/**/*.{ts,tsx}"
+      ],
+      "linter": {
+        "enabled": false
+      }
+    }
+  ],
   "assist": {
     "enabled": true,
     "actions": {

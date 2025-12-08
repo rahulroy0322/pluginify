@@ -6,9 +6,10 @@
   "description": "A plugin system in react",
   "homepage": "https://github.com/rahulroy0322/pluginify#readme",
   "scripts": {
-    "build": "npm run build:sw && npm run build:app",
+    "build": "npm run build:plugin&& npm run build:sw && npm run build:app",
     "build:app": "tsc -b && vite build",
-    "build:sw": "cd public && tsc -b",
+    "build:sw": "cd public && tsc -p tsconfig.sw.json",
+    "build:plugin": "cd public && tsc -p tsconfig.plugin.json",
     "check": "biome check",
     "check:fix": "biome check --fix",
     "dev": "vite",
@@ -20,7 +21,8 @@
     "lucide-react": "^0.555.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "tailwind-merge": "^3.4.0"
+    "tailwind-merge": "^3.4.0",
+    "zustand": "^5.0.9"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.8",

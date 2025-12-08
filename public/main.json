@@ -1,8 +1,7 @@
 {
   "name": "My App",
   "short-name": "my-app",
-  "slug": "com.myapp.test",
-  "files": [
-    "main.js"
-  ]
+  "slug": "myapp/test",
+  "base-url": "http://localhost:5173",
+  "main-file": "main.js"
 }
