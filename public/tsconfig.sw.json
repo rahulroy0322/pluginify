@@ -18,5 +18,8 @@
 
     "strict": true,
     "skipLibCheck": true
-  }
+  },
+  "include": [
+    "./sw.ts"
+  ]
 }

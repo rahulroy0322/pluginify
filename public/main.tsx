@@ -68,4 +68,4 @@ const App = () => {
   )
 }
 
-api.render('sidebar_nav', 'asxpa', App as unknown)
+api.render('sidebar_nav', 'asxpa', App as any)
