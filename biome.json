@@ -13,7 +13,7 @@
       "biome.json",
       "package.json",
       "vite.config.ts",
-      "public/**/*.{ts,tsx}",
+      "public/**/*.{ts,tsx,svg,json}",
       "!src/components/ui/*"
     ]
   },

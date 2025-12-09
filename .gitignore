@@ -140,3 +140,5 @@ bin
 pnpm-workspace.yaml
 sw.js
 !src/lib
+.tanstack/
+src/routeTree.gen.ts
