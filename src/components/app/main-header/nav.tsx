@@ -1,3 +1,7 @@
+import { Link, type LinkComponentProps } from '@tanstack/react-router'
+import { BellRing, Menu } from 'lucide-react'
+import type { FC, PropsWithChildren } from 'react'
+import Brand from '@/components/app/brand'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -18,12 +22,8 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { useIsMobile } from '@/hooks/use-mobile'
-import { cn } from '@/lib/utils'
-import { Link, type LinkComponentProps } from '@tanstack/react-router'
-import { BellRing, Menu } from 'lucide-react'
-import type { FC } from 'react'
-import Brand from '@/components/app/brand'
 import { formatTime } from '@/lib/time'
+import { cn } from '@/lib/utils'
 
 type LinkType = {
   href: LinkComponentProps['to']
@@ -54,10 +54,12 @@ const NavItems: FC<{
     </Button>
   ))
 
-const Navbar: FC<{
-  links: LinkType[]
-  notifications: NotificationType[]
-}> = ({ links, notifications }) => {
+const Navbar: FC<
+  PropsWithChildren & {
+    links: LinkType[]
+    notifications: NotificationType[]
+  }
+> = ({ links, notifications, children }) => {
   const isMobile = useIsMobile()
   return (
     <nav
@@ -70,59 +72,62 @@ const Navbar: FC<{
         </div>
       ) : null}
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            className="relative"
-            size="icon"
-            variant="outline">
-            <BellRing size={20} />
-            <Badge
-              className="absolute size-6 text-[9px] items-center justify-center p-1 aspect-square -right-3 -top-3"
-              variant={'outline'}>
-              99+
-            </Badge>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          align="end"
-          className="w-56 max-h-96">
-          <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+      <div className="flex items-center gap-2">
+        {children}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              className="relative"
+              size="icon"
+              variant="outline">
+              <BellRing size={20} />
+              <Badge
+                className="absolute size-6 text-[9px] items-center justify-center p-1 aspect-square -right-3 -top-3"
+                variant={'outline'}>
+                99+
+              </Badge>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="end"
+            className="w-56 max-h-96">
+            <DropdownMenuLabel>Notifications</DropdownMenuLabel>
 
-          <DropdownMenuItem>
-            Mark All Read
-            <DropdownMenuShortcut className="opacity-50">
-              ⇧⌘R
-            </DropdownMenuShortcut>
-          </DropdownMenuItem>
+            <DropdownMenuItem>
+              Mark All Read
+              <DropdownMenuShortcut className="opacity-50">
+                ⇧⌘R
+              </DropdownMenuShortcut>
+            </DropdownMenuItem>
 
-          <DropdownMenuSeparator />
+            <DropdownMenuSeparator />
 
-          <DropdownMenuGroup className="max-w-56 overflow-hidden">
-            {notifications.map(
-              ({ id, title, at, content, icon: Icon }, idx) => (
-                <DropdownMenuItem
-                  className="flex-col items-start gap-0"
-                  key={id || idx}>
-                  <h3 className="flex items-center gap-1 text-sm truncate">
-                    {Icon ? <Icon /> : null}
-                    {title}
-                  </h3>
+            <DropdownMenuGroup className="max-w-56 overflow-hidden">
+              {notifications.map(
+                ({ id, title, at, content, icon: Icon }, idx) => (
+                  <DropdownMenuItem
+                    className="flex-col items-start gap-0"
+                    key={id || idx}>
+                    <h3 className="flex items-center gap-1 text-sm truncate">
+                      {Icon ? <Icon /> : null}
+                      {title}
+                    </h3>
 
-                  {content && (
-                    <p className="text-xs text-muted-foreground">{content}</p>
-                  )}
-                  <time
-                    className="text-xs text-muted-foreground"
-                    dateTime={at as string}>
-                    {formatTime(at instanceof Date ? at : new Date(at))}
-                  </time>
-                </DropdownMenuItem>
-              )
-            )}
-          </DropdownMenuGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
+                    {content && (
+                      <p className="text-xs text-muted-foreground">{content}</p>
+                    )}
+                    <time
+                      className="text-xs text-muted-foreground"
+                      dateTime={at as string}>
+                      {formatTime(at instanceof Date ? at : new Date(at))}
+                    </time>
+                  </DropdownMenuItem>
+                )
+              )}
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
 
       {isMobile ? (
         <Sheet>
@@ -143,5 +148,6 @@ const Navbar: FC<{
     </nav>
   )
 }
+
 export { Navbar }
 export type { NotificationType, LinkType }

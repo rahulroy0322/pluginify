@@ -10,8 +10,6 @@ sw.addEventListener('install', (_event) => {
   sw.skipWaiting()
 })
 
-console.log('here')
-
 sw.addEventListener('activate', (event) => {
   // event.waitUntil(clients.claim());
 
@@ -26,64 +24,93 @@ sw.addEventListener('fetch', async (event) => {
     event.respondWith(cacheFirst(event.request))
   }
 
-  // if (url.includes('http://localhost:5173/my-app/test/main.js')) {
-  //   return event.respondWith(await fetch('http://localhost:5173/test.txt'))
-  // }
+  const cache = await caches.open(CACHE_NAME)
 
-  // const cache = await caches.open(CACHE_NAME)
-
-  // const cached = await cache.match(url)
-  // if (cached) {
-  //   return event.respondWith(cached)
-  // }
+  const cached = await cache.match(url)
+  if (cached) {
+    return event.respondWith(cached)
+  }
 })
 
-// const getUrl = ({ slug, file }: { slug: string; file: string }): string => {
-//   if (!slug) {
-//     return file
-//   }
+const getUrl = ({ slug, file }: { slug: string; file: string }): string => {
+  if (!slug) {
+    return file
+  }
 
-//   return slug + '/' + file
-// }
+  return slug + '/' + file
+}
+
+type PluginMainFileType = {
+  name: string
+  // description?: string
+  'short-name': string
+  slug: string
+  'base-url': string
+  'main-file': string
+  style?: string
+}
+
+const fetchFile = async ({
+  file,
+  baseUrl,
+  slug,
+  cache,
+}: {
+  file: string
+  baseUrl: string
+  slug: string
+  cache: Cache
+}) => {
+  const url = new URL(file, baseUrl)
+
+  const req = new Request(
+    new URL(
+      getUrl({
+        slug,
+        file,
+      }),
+      baseUrl
+    )
+  )
+
+  const res = await fetch(url)
+
+  cache.put(req, res.clone())
+}
 
 const cacheFirst = async (request: Request) => {
   const cache = await caches.open(CACHE_NAME)
 
-  // const cached = await cache.match(request)
-  // if (cached) {
-  //   return cached // ✅ Serve from cache instantly
-  // }
+  const mainRes = await fetch(request)
 
-  const res = await fetch(request)
+  const {
+    'base-url': baseUrl,
+    'main-file': main,
+    style,
+    slug,
+  } = (await mainRes.clone().json()) as PluginMainFileType
 
-  cache.put(request, res.clone())
+  const promises = [
+    fetchFile({
+      baseUrl,
+      cache,
+      file: main,
+      slug,
+    }),
+  ]
 
-  const { files } = (await res.clone().json()) as {
-    slug: string
-
-    files: string[]
+  if (style) {
+    promises.push(
+      fetchFile({
+        baseUrl,
+        cache,
+        file: style,
+        slug,
+      })
+    )
   }
 
-  await Promise.all(
-    files.map(async (file) => {
-      const url = new URL(file, request.url)
+  await Promise.all(promises)
 
-      const req = new Request(
-        // new URL(
-        //   getUrl({
-        //     slug,
-        //     file,
-        //   }),
-        //   request.url
-        // )
-        url
-      )
-
-      const res = await fetch(req)
-
-      cache.put(req, res.clone())
-    })
-  )
-
-  return res
+  return mainRes
 }

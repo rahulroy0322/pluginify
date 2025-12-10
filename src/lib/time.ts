@@ -1,9 +1,6 @@
 const { format: formatTime } = new Intl.DateTimeFormat(undefined, {
-    timeStyle: 'short',
-    dateStyle: 'short',
+  timeStyle: 'short',
+  dateStyle: 'short',
 })
 
-
-export {
-    formatTime
-}
+export { formatTime }

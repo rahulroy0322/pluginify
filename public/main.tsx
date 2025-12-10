@@ -1,11 +1,7 @@
-type SlotName =
-  | 'header_action'
-  | 'sidebar_nav'
-  | 'dashboard_widget'
-  | 'global_background'
+type SlotNameType = 'main-header' | 'dashboard'
 
 type PluginAPI = {
-  render: (slot: SlotName, id: string, component: React.FC<any>) => void
+  render: (slot: SlotNameType, id: string, component: React.FC<any>) => void
 }
 
 declare let api: PluginAPI
@@ -68,4 +64,4 @@ const App = () => {
   )
 }
 
-api.render('sidebar_nav', 'asxpa', App as any)
+api.render('dashboard', 'asxpa', App as any)

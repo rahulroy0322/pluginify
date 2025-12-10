@@ -1,41 +1,14 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import type { PluginMainFileType } from '@/@types/plugin'
+import type { SystemStoreType } from '@/@types/store'
 
 const PLUGIN_KEY = 'pluginify-plugins'
-
-type MainFileType = {
-  name: string
-  // description?: string
-  'short-name': string
-  slug: string
-  'base-url': string
-  //   files: string[]
-  'main-file': string
-}
-
-// id: string
-// name: string
-// description: string
-// version: string
-// author: string
-// icon: React.ElementType
-// sourceUrl: string
-type SystemStoreType = {
-  plugins: MainFileType[]
-}
 
 const useSystem = create(
   persist<SystemStoreType>(
     () => ({
-      plugins: [
-        {
-          name: 'My App',
-          'short-name': 'my-app',
-          slug: 'myapp/test',
-          'base-url': 'http://localhost:5173',
-          'main-file': 'main.js',
-        },
-      ],
+      plugins: [],
     }),
     {
       name: PLUGIN_KEY,
@@ -43,4 +16,23 @@ const useSystem = create(
   )
 )
 
-export { useSystem }
+const { setState: set, getState: get } = useSystem
+
+const install = (plugin: PluginMainFileType) => {
+  const plugins = get().plugins
+  if (plugins.find((p) => p.name === plugin.name && p.slug === plugin.slug)) {
+    return
+  }
+
+  set({
+    plugins: [
+      ...plugins,
+      {
+        ...plugin,
+        active: true,
+      },
+    ],
+  })
+}
+
+export { useSystem, install }

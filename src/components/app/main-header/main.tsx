@@ -1,8 +1,9 @@
 import { Download, File } from 'lucide-react'
 import type { FC } from 'react'
-import { Button } from '@/components/ui/button'
 import Brand from '@/components/app/brand'
-import { Navbar, type LinkType, type NotificationType } from './nav'
+import { Button } from '@/components/ui/button'
+import PluginSlot from '../slot'
+import { type LinkType, Navbar, type NotificationType } from './nav'
 
 const _notifications: NotificationType[] = [
   {
@@ -34,9 +35,9 @@ const notifications = [
   ..._notifications,
 ]
 
-const links: LinkType[] = [
+const LINKS: LinkType[] = [
   {
-    href: '/',
+    href: '/store',
     title: 'store',
   },
   {
@@ -55,9 +56,10 @@ const MainHeader: FC = () => (
     </Button>
 
     <Navbar
-      links={links}
-      notifications={notifications}
-    />
+      links={LINKS}
+      notifications={notifications}>
+      <PluginSlot slot="main-header" />
+    </Navbar>
   </header>
 )
 
