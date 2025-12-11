@@ -8,6 +8,7 @@ type PluginMainFileType = {
   'base-url': string
   //   files: string[]
   'main-file': string
+  style?: string
 }
 // id: string
 // name: string

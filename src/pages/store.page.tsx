@@ -1,6 +1,8 @@
-import { Box, Download, Loader, Pause, Play, Trash2 } from 'lucide-react'
-import { type FC, useState } from 'react'
+import { Box, Download, Pause, Play, Trash2 } from 'lucide-react'
+import { type FC, Suspense, use, useState } from 'react'
 import type { PluginMainFileType } from '@/@types/plugin'
+import { fetchPlugins } from '@/api/plugin'
+import Loader from '@/components/app/loader'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -100,14 +102,14 @@ const PluginCard: FC<PluginMainFileType> = (file) => {
   )
 }
 
-const StorePage: FC = () => (
-  <div className="h-full overflow-hidden flex flex-col gap-4 pt-2">
-    <div className="shrink-0">
-      <h1 className="text-2xl font-bold">Plugin Store</h1>
-      <p className="text-muted-foreground">
-        Discover extensions to boost your workflow.
-      </p>
-    </div>
+type RenderPluginsImplPropsType = {
+  req: Promise<PluginMainFileType[]>
+}
+
+const RenderPluginsImpl: FC<RenderPluginsImplPropsType> = ({ req }) => {
+  const plugins = use(req)
+
+  return (
     <div className="grow overflow-auto">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-h-full h-fit gap-4">
         {plugins.map((plugin) => (
@@ -118,17 +120,29 @@ const StorePage: FC = () => (
         ))}
       </div>
     </div>
+  )
+}
+
+const RenderPlugins: FC = () => {
+  const req = fetchPlugins()
+
+  return (
+    <Suspense fallback={<Loader />}>
+      <RenderPluginsImpl req={req} />
+    </Suspense>
+  )
+}
+
+const StorePage: FC = () => (
+  <div className="h-full overflow-hidden flex flex-col gap-4 pt-2">
+    <div className="shrink-0">
+      <h1 className="text-2xl font-bold">Plugin Store</h1>
+      <p className="text-muted-foreground">
+        Discover extensions to boost your workflow.
+      </p>
+    </div>
+    <RenderPlugins />
   </div>
 )
-
-const plugins = [
-  {
-    name: 'My App',
-    'short-name': 'my-app',
-    slug: 'myapp/test',
-    'base-url': 'http://localhost:5173',
-    'main-file': 'main.js',
-  },
-]
 
 export default StorePage

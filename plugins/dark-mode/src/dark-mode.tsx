@@ -1,4 +1,3 @@
-import { Laptop, Moon, Sun } from 'lucide-react'
 import {
   type FC,
   type ReactEventHandler,
@@ -11,8 +10,6 @@ type ThemeType = 'dark' | 'light' | 'system'
 
 const DEFAULT_THEME = 'system'
 const STORAGE_KEY = 'dark-mode-theme'
-
-// const { useState } = React
 
 const DarkMode: FC = () => {
   const [theme, setTheme] = useState(
@@ -37,10 +34,9 @@ const DarkMode: FC = () => {
     root.classList.add(theme)
   }, [theme])
 
-  const onSelect = useCallback(
+  const onChange = useCallback(
     ((e) => {
       const value = (e.target as HTMLSelectElement).value as ThemeType
-
       setTheme(value)
     }) satisfies ReactEventHandler<HTMLSelectElement>,
     []
@@ -48,20 +44,11 @@ const DarkMode: FC = () => {
 
   return (
     <select
-      className="bg-[pink]"
-      onSelect={onSelect}
+      onChange={onChange}
       value={theme}>
-      <option
-        className="text-5xl"
-        value={'system' satisfies ThemeType}>
-        <Laptop />
-      </option>
-      <option value={'light' satisfies ThemeType}>
-        <Sun />
-      </option>
-      <option value={'dark' satisfies ThemeType}>
-        <Moon />
-      </option>
+      <option value={'system' satisfies ThemeType}>System</option>
+      <option value={'light' satisfies ThemeType}>Light</option>
+      <option value={'dark' satisfies ThemeType}>Dark </option>
     </select>
   )
 }

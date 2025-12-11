@@ -1,4 +1,4 @@
-import React, { type FC, useEffect } from 'react'
+import React, { createElement, type FC, useEffect } from 'react'
 import type { PluginAPIType } from '@/@types/plugin'
 import type { SystemStoreType } from '@/@types/store'
 import { loadRemoteFileCode } from '@/lib/module'
@@ -20,9 +20,9 @@ const runPlugins = (plugins: SystemStoreType['plugins']) => {
       const code = await loadRemoteFileCode(
         `${plugin['base-url']}/${plugin['main-file']}`
       )
-      const factory = new Function('React', 'api', code)
+      const factory = new Function('React', '_h', '_f', 'api', code)
 
-      factory(React, {
+      factory(React, h, f, {
         render: (slot, id, Component) => {
           const _id = `${id}`
           addToSlot(slot, {
@@ -36,6 +36,9 @@ const runPlugins = (plugins: SystemStoreType['plugins']) => {
     }
   })
 }
+
+const h = createElement
+const f = () => createElement(React.Fragment)
 
 const LoadPlugins: FC = () => {
   const plugins = useSystem((state) => state.plugins)

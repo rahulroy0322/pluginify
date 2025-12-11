@@ -184,4 +184,7 @@ button:focus-visible {
   body {
     @apply bg-background text-foreground;
   }
+  .loader {
+    animation: spin 2s linear infinite;
+  }
 }

@@ -6,10 +6,9 @@
   "description": "A plugin system in react",
   "homepage": "https://github.com/rahulroy0322/pluginify#readme",
   "scripts": {
-    "build": "npm run build:plugin&& npm run build:sw && npm run build:app",
+    "build": "npm run build:sw && npm run build:app",
     "build:app": "tsc -b && vite build",
-    "build:sw": "cd public && tsc -p tsconfig.sw.json",
-    "build:plugin": "cd public && tsc -p tsconfig.plugin.json",
+    "build:sw": "cd public && tsc -p tsconfig.json",
     "check": "biome check",
     "check:fix": "biome check --fix",
     "dev": "vite",

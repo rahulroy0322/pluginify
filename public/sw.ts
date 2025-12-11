@@ -32,14 +32,6 @@ sw.addEventListener('fetch', async (event) => {
   }
 })
 
-const getUrl = ({ slug, file }: { slug: string; file: string }): string => {
-  if (!slug) {
-    return file
-  }
-
-  return slug + '/' + file
-}
-
 type PluginMainFileType = {
   name: string
   // description?: string
@@ -53,27 +45,17 @@ type PluginMainFileType = {
 const fetchFile = async ({
   file,
   baseUrl,
-  slug,
   cache,
 }: {
   file: string
   baseUrl: string
-  slug: string
   cache: Cache
 }) => {
   const url = new URL(file, baseUrl)
 
-  const req = new Request(
-    new URL(
-      getUrl({
-        slug,
-        file,
-      }),
-      baseUrl
-    )
-  )
+  const req = new Request(url)
 
-  const res = await fetch(url)
+  const res = await fetch(req)
 
   cache.put(req, res.clone())
 }
@@ -87,7 +69,6 @@ const cacheFirst = async (request: Request) => {
     'base-url': baseUrl,
     'main-file': main,
     style,
-    slug,
   } = (await mainRes.clone().json()) as PluginMainFileType
 
   const promises = [
@@ -95,7 +76,6 @@ const cacheFirst = async (request: Request) => {
       baseUrl,
       cache,
       file: main,
-      slug,
     }),
   ]
 
@@ -105,12 +85,12 @@ const cacheFirst = async (request: Request) => {
         baseUrl,
         cache,
         file: style,
-        slug,
       })
     )
   }
 
   await Promise.all(promises)
 
+  cache.put(request, mainRes.clone())
   return mainRes
 }
