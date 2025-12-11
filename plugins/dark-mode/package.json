@@ -1,0 +1,20 @@
+{
+  "name": "dark-mode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "type": "module",
+  "scripts": {
+    "check": "tsc -b",
+    "build:es": "node esbuild.config.ts",
+    "build": "npm run check && npm run build:es"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.27.1",
+    "esbuild-plugin-tailwindcss": "^2.1.0",
+    "lucide-react": "^0.559.0",
+    "typescript": "~5.9.3"
+  }
+}

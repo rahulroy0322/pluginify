@@ -14,7 +14,8 @@
       "package.json",
       "vite.config.ts",
       "public/**/*.{ts,tsx,svg,json}",
-      "!src/components/ui/*"
+      "!src/components/ui/*",
+      "plugins/**/*"
     ]
   },
   "formatter": {
@@ -114,6 +115,14 @@
     {
       "includes": [
         "public/**/*.{ts,tsx}"
+      ],
+      "linter": {
+        "enabled": false
+      }
+    },
+    {
+      "includes": [
+        "plugins/**/*.{ts,tsx}"
       ],
       "linter": {
         "enabled": false

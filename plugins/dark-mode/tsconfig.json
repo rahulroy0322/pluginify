@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+
+    "jsx": "preserve",
+    "jsxImportSource": "react",
+
+    "strict": true,
+    "isolatedModules": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    "types": [
+      "react"
+    ]
+  },
+  "include": [
+    "src/**/*"
+  ]
+}

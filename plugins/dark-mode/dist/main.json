@@ -1,0 +1,7 @@
+{
+  "name": "Dark Mode",
+  "short-name": "dark-mode",
+  "slug": "dark/mode",
+  "base-url": "http://localhost:3000",
+  "main-file": "main.js"
+}
