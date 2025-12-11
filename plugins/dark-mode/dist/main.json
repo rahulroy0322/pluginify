@@ -2,6 +2,6 @@
   "name": "Dark Mode",
   "short-name": "dark-mode",
   "slug": "dark/mode",
-  "base-url": "http://localhost:3000",
+  "base-url": "https://raw.githubusercontent.com/rahulroy0322/pluginify/refs/heads/main/plugins/dark-mode/dist/main.json",
   "main-file": "main.js"
 }
